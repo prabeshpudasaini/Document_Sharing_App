@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "425180068487",
+    "project_id": "collegedocumentsharing",
+    "storage_bucket": "collegedocumentsharing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425180068487:android:d4c0c77d392115752bd622",
+        "android_client_info": {
+          "package_name": "com.example.collegedocumentsharing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425180068487-fevgbaee7u56qak1mkv0s89o32iq8rig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwK2WpR3YoRT6DOkjYg-VBq9l7Y0uMhZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425180068487-fevgbaee7u56qak1mkv0s89o32iq8rig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/activity_class.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/activity_forgot_password.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/activity_signup.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/app_bar_main.xml" value="0.2105978260869565" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/content_main.xml" value="0.2105978260869565" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/create_group.xml" value="0.21829710144927536" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/dropdown_menu.xml" value="0.151268115942029" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/fragment_class.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/fragment_class_host.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/fragment_dashboard.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/fragment_home.xml" value="0.176" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/fragment_notifications.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/fragment_profile.xml" value="0.2056159420289855" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/fragment_settings.xml" value="0.2056159420289855" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/home_bottom_sheet_layout.xml" value="0.48520710059171596" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/join_group.xml" value="0.21829710144927536" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/nav_header_main.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/layout/single_card.xml" value="0.22735507246376813" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/menu/activity_main_drawer.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/menu/dropdown_menu.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/CollegeDocumentSharing/app/src/main/res/menu/main.xml" value="0.23645833333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/join_code_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Group Join Code"
+        android:maxLines="1"
+        android:singleLine="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/join_code_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/join_group_button"
+        android:text="Join Group"
+        android:layout_margin="10dp"
+        />
+
+    <!--     ProgressBar for loading time-->
+    <ProgressBar
+        android:id="@+id/join_group_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</LinearLayout>
