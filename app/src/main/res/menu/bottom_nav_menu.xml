@@ -5,17 +5,15 @@
     <item
         android:id="@+id/bottom_nav_class"
 
-        android:title="Class" />
+        android:enabled="true"
+        android:title="Files"
+        android:icon="@drawable/ic_baseline_folder_24"/>
 
     <item
         android:id="@+id/bottom_nav_dashboard"
-
-        android:title="Dashboard" />
-
-    <item
-        android:id="@+id/bottom_nav_notifications"
-
-        android:title="Notifications" />
+        android:enabled="true"
+        android:title="Members"
+        android:icon="@drawable/ic_baseline_people_24"/>
 
 
 </menu>

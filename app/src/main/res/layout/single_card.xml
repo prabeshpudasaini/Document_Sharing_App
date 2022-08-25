@@ -1,44 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<!--<LinearLayout-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:orientation="vertical"-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--&gt;-->
 
     <com.google.android.material.card.MaterialCardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_margin="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
 
-        app:cardBackgroundColor="@android:color/white"
         app:cardElevation="2dp"
-        app:cardPreventCornerOverlap="true">
+        app:cardPreventCornerOverlap="true"
+    >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingTop="16dp"
-            android:paddingRight="16dp">
+            android:padding="15dp"
+            >
 
             <TextView
-                android:id="@+id/tv"
+                android:id="@+id/group_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/menu_image_button"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:text="Name" />
 
-            <ImageView
-                android:id="@+id/iv"
+
+            <ImageButton
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_more_vert_24"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                app:srcCompat="@mipmap/ic_launcher" />
-
+                android:id="@+id/menu_image_button"
+                android:clickable="true"
+                android:padding="5dp"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"/>
         </RelativeLayout>
 
-
     </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/empty_textview"-->
+<!--        android:gravity="center"-->
+<!--        android:visibility="gone"-->
+<!--        android:text="No data"-->
+<!--        />-->
+
+<!--</LinearLayout>-->
