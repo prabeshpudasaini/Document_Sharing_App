@@ -15,29 +15,31 @@ import com.example.collegedocumentsharing.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class ClassHostFragment extends Fragment {
+public class FileHostFragment extends Fragment {
 
     private BottomNavigationView bottomNavigationView;
     private FragmentTransaction ft;
     String resultName, resultCode, resultGroupId;
-    ClassFragment fragment;
+    FileFragment fragment;
     MemberFragment memberFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_class_host, null);
+        View v = inflater.inflate(R.layout.fragment_file_host, null);
 
+        //Gets Data from bundle From Home Fragment
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             resultName = bundle.getString("Class Name", "Class Name");
             resultCode = bundle.getString("Join Code", "Join Code");
             resultGroupId = bundle.getString("GroupId","GroupId");
-
         }
 
-        fragment = new ClassFragment();
+        fragment = new FileFragment();
         memberFragment = new MemberFragment();
+
+        //Sends Data to FileFragment
         Bundle b = new Bundle();
         b.putString("Class Name", resultName);
         b.putString("Join Code", resultCode);
@@ -46,10 +48,9 @@ public class ClassHostFragment extends Fragment {
         fragment.setArguments(b);
         memberFragment.setArguments(b);
 
-
         bottomNavigationView = v.findViewById(R.id.bottom_nav_view);
 
-
+        //Sets Default Fragment
         ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.main_class_content,fragment);
         ft.commit();
@@ -59,26 +60,23 @@ public class ClassHostFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id=item.getItemId();
 
-                if(id==R.id.bottom_nav_class){
+                if(id==R.id.bottom_nav_files){
                     ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.main_class_content,fragment);
                     ft.commit();
                     return true;
-
                 }
-                if(id==R.id.bottom_nav_dashboard){
+                if(id==R.id.bottom_nav_members){
                     ft = getActivity().getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.main_class_content,memberFragment);
                     ft.commit();
                     return true;
-
                 }
                 return false;
             }
         });
 
         return v;
-
 
     }
 }

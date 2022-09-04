@@ -10,6 +10,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +40,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerlayout;
@@ -61,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Sets Default Fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.main_content,new HomeFragment());
         ft.commit();
@@ -70,21 +79,15 @@ public class MainActivity extends AppCompatActivity {
         drawerlayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_view);
+
+        //gets Header view
         View navHeader = navigationView.getHeaderView(0);
 
         UserPhoto = navHeader.findViewById(R.id.user_photo);
         UsernameTextView = navHeader.findViewById(R.id.text_username);
         UserEmailTextView = navHeader.findViewById(R.id.text_useremail);
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        //Checks App Theme and Sets Selected Theme
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String theme = sharedPreferences.getString("themes_switch","");
         if(theme.equals("Light")){
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
 
+        //Check Auth state
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -113,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 .getReference("Users");
         userId = user.getUid();
 
+        //Reads User Data
         reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -144,20 +149,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        if (user != null) {
-//            // Name, email address, and profile photo Url
-////            String name = user.getDisplayName();
-//            String email = user.getEmail();
-////            Uri photoUrl = user.getPhotoUrl();
-//
-////            UserPhoto.setImageURI(photoUrl);
-////            UsernameTextView.setText(name);
-////            UserEmailTextView.setText(email);
-//        }else{
-//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//            finish();
-//        }
-
         //Setup navigation Drawer
         setSupportActionBar(toolbar);
 
@@ -179,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-                if(id==R.id.nav_gallery){
+                if(id==R.id.nav_profile){
                     ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.main_content,new ProfileFragment());
                     ft.commit();
@@ -187,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 }
-                if(id==R.id.nav_slideshow){
+                if(id==R.id.nav_settings){
                     ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.main_content,new SettingsFragment());
                     ft.commit();
@@ -228,7 +219,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem searchItem = menu.findItem(R.id.search);
+
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(
+                new ComponentName(this, SearchableActivity.class)));
+        searchView.setQueryRefinementEnabled(true);
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -238,15 +238,39 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                String word = newText;
+                if (word.length() == 0){
+                    return true;
+                }
+                String [] closestWord = returnSuggestions(word, 3);
+                if (closestWord != null){
+//                    firstSuggestion.setText(closestWord[0]);
+//                    secondSuggestion.setText(closestWord[1]);
+//                    thirdSuggestion.setText(closestWord[2]);
+                }
+                return true;
             }
         });
         return true;
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this, "Searching by: "+ query, Toast.LENGTH_SHORT).show();
+
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            String uri = intent.getDataString();
+            Toast.makeText(this, "Suggestion: "+ uri, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
+        //Checks Auth State
         firebaseAuth.addAuthStateListener(authStateListener);
 
     }
@@ -263,43 +287,88 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        //Sets Default Fragment
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.main_content,new HomeFragment());
         ft.commit();
-
-//        String fragment = getIntent().getExtras().getString("fragment");
-//
-//
-//        switch(fragment){
-//            case "home":
-//                ft = getSupportFragmentManager().beginTransaction();
-//                ft.replace(R.id.main_content,new HomeFragment());
-//                ft.commit();
-//                break;
-//            case "gallery":
-//                ft = getSupportFragmentManager().beginTransaction();
-//                ft.replace(R.id.main_content,new ProfileFragment());
-//                ft.commit();
-//                break;
-//            case "slideshow":
-//                ft = getSupportFragmentManager().beginTransaction();
-//                ft.replace(R.id.main_content,new SettingsFragment());
-//                ft.commit();
-//                break;
-//        }
     }
 
-    //    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//
-//        int id = item.getItemId();
-//        if(id==R.id.logout){
-//
-//            Intent i = new Intent(MainActivity.this, LoginActivity.class);
-//            startActivity(i);
-//        }
-//        return true;
-//    }
+    //Algorithm
+    int levenshtein(String token1, String token2) {
+        int[] distances = new int[token1.length() + 1];
 
+        for (int t1 = 1; t1 <= token1.length(); t1++) {
+            if (token1.charAt(t1 - 1) == token2.charAt(0)) {
+                distances[t1] = calcMin(distances[t1 - 1], t1 - 1, t1);
+            } else {
+                distances[t1] = calcMin(distances[t1 - 1], t1 - 1, t1) + 1;
+            }
+        }
+
+        int dist = 0;
+        for (int t2 = 1; t2 < token2.length(); t2++) {
+            dist = t2 + 1;
+            for (int t1 = 1; t1 <= token1.length(); t1++) {
+                int tempDist;
+                if (token1.charAt(t1 - 1) == token2.charAt(t2)) {
+                    tempDist = calcMin(dist, distances[t1 - 1], distances[t1]);
+                } else {
+                    tempDist = calcMin(dist, distances[t1 - 1], distances[t1]) + 1;
+                }
+                distances[t1 - 1] = dist;
+                dist = tempDist;
+            }
+            distances[token1.length()] = dist;
+        }
+        return dist;
+    }
+
+    static int calcMin(int a, int b, int c) {
+        if (a <= b && a <= c) {
+            return a;
+        } else if (b <= a && b <= c) {
+            return b;
+        } else {
+            return c;
+        }
+    }
+
+    String [] returnSuggestions(String word, int numWords){
+        String[] dictWordDist = new String[20000];
+        BufferedReader reader;
+        int wordIdx = 0;
+        try {
+            int wordDistance;
+            reader = new BufferedReader(new InputStreamReader(getAssets().open("20k.txt")));
+            String line = reader.readLine();
+            while (line != null) {
+                wordDistance = levenshtein(line.trim(), word);
+                dictWordDist[wordIdx] = wordDistance + "-" + line.trim();
+                line = reader.readLine();
+                wordIdx++;
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("Failed to read the file.");
+            e.printStackTrace();
+            return null;
+        }
+        Arrays.sort(dictWordDist);
+        String[] closestWords = new String[numWords];
+        String currWordDist;
+        for (int i = 0; i < numWords; i++) {
+            currWordDist = dictWordDist[i];
+            String[] wordDetails = currWordDist.split("-");
+            closestWords[i] = wordDetails[1];
+            System.out.println(wordDetails[0] + " " + wordDetails[1]);
+        }
+        return closestWords;
+    }
+
+//    public void selectWord(View view){
+//        Button button = (Button) view;
+//        enteredWord.setText(button.getText() + " ");
+//        enteredWord.setSelection(enteredWord.getText().length());
+//    }
 
 }

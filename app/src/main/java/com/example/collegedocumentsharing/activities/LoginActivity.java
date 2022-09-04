@@ -48,8 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i= new Intent(LoginActivity.this,MainActivity.class);
-//                startActivity(i);
                 loginUserAccount();
             }
         });
@@ -71,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //Handles Login
     private void loginUserAccount() {
 
         // Take the value of two edit texts in Strings
@@ -80,20 +79,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // validations for input email and password
         if (TextUtils.isEmpty(email)) {
-//            Toast.makeText(getApplicationContext(),
-//                    "Please enter email!!",
-//                    Toast.LENGTH_LONG)
-//                    .show();
             emailTextView.setError("Email is required");
             emailTextView.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-//            Toast.makeText(getApplicationContext(),
-//                    "Please enter password!!",
-//                    Toast.LENGTH_LONG)
-//                    .show();
             passwordTextView.setError("Password is required");
             passwordTextView.requestFocus();
             return;
@@ -102,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         // show the visibility of progress bar to show loading
         progressBar.setVisibility(View.VISIBLE);
 
+        //Logins User
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -109,8 +101,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(getApplicationContext(),
-                                    "Login successful!!",
-                                    Toast.LENGTH_LONG)
+                                            "Login successful!!",
+                                            Toast.LENGTH_LONG)
                                     .show();
 
                             // hide the progress bar
@@ -126,8 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             // sign-in failed
                             Toast.makeText(getApplicationContext(),
-                                    "Login failed!! Check Email or Password",
-                                    Toast.LENGTH_LONG)
+                                            "Login failed!! Check Email or Password",
+                                            Toast.LENGTH_LONG)
                                     .show();
 
                             // hide the progress bar

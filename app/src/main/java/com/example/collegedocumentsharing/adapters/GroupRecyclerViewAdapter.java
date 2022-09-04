@@ -39,26 +39,27 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
     private EmptyViewInterface empty;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-    Context c;
-    private ArrayList<GroupsModel> groupsArrayList = new ArrayList<GroupsModel>();
-
-
     public GroupRecyclerViewAdapter(@NonNull FirestoreRecyclerOptions<GroupsModel> options) {
         super(options);
-
     }
 
     @Override
     protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull GroupsModel model) {
 
-
+        //Sets Data to recycleView
         holder.tv.setText(model.getName());
+
+        //Shows Popup Menu
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Shows Popup Menu
                 PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.imageButton);
                 popupMenu.inflate(R.menu.card_view_menu);
 
+                //Checks if user is owner of group or not
+                //If user is not owner show leave group menu else show delete menu
                 if(!firebaseAuth.getCurrentUser().getUid().equals(model.getOwner())){
                     popupMenu.getMenu().findItem(R.id.card_view_leave).setVisible(true);
                     popupMenu.getMenu().findItem(R.id.card_view_delete).setVisible(false);
@@ -106,6 +107,7 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
         });
     }
 
+    //Handles Leave group
     private void leaveGroup(int position, View v) {
         getSnapshots().getSnapshot(position).getReference().update("members", FieldValue
                 .arrayRemove(firebaseAuth.getCurrentUser().getUid()));
@@ -115,6 +117,8 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
 
     }
 
+
+    //Handles Delete Group
     private void deleteCard(int position,View v) {
         getSnapshots().getSnapshot(position).getReference().delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -134,7 +138,7 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_card
-        ,parent,false);
+                ,parent,false);
 
         return new MyViewHolder(v);
     }
@@ -149,7 +153,7 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
             imageButton = itemView.findViewById(R.id.menu_image_button);
             emptyView = itemView.findViewById(R.id.empty_textview);
 
-            //Implementing Onclick Listener
+            //Implementing Onclick Listener on recyclerView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -159,8 +163,8 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
 
 //                    Making sure the position is valid and Making sure the Interface isn't null
                     if (position != RecyclerView.NO_POSITION && listener != null){
-                            listener.onCardViewClick(getSnapshots().getSnapshot(position),position);
-                        }
+                        listener.onCardViewClick(getSnapshots().getSnapshot(position),position);
+                    }
                 }
             });
         }
@@ -169,11 +173,11 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
     @Override
     public void onDataChanged() {
         super.onDataChanged();
+
+        //Checks Empty View
         if(getSnapshots().isEmpty()){
-//            Log.d("Document","is empty");
             empty.onEmptyView(true);
         }else{
-//            Log.d("Document","is not empty");
             empty.onEmptyView(false);
 
         }
@@ -184,9 +188,9 @@ public class GroupRecyclerViewAdapter extends FirestoreRecyclerAdapter<GroupsMod
     }
     public void setOnCardViewClickListener(CardViewClickInterface listener){
         this.listener = listener;
-
     }
 
+    //Handles Empty View
     public interface EmptyViewInterface{
         void onEmptyView(Boolean isEmpty);
 

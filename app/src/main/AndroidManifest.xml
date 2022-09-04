@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_custom_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CollegeDocumentSharing">
+
         <activity
             android:name=".activities.SearchableActivity"
             android:exported="false">
@@ -27,10 +28,6 @@
         <activity
             android:name=".activities.ForgotPasswordActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.ClassActivity"
-            android:exported="false"
-            android:theme="@style/Theme.CollegeDocumentSharing.NoActionBar" />
         <activity
             android:name=".activities.SignupActivity"
             android:exported="false" />

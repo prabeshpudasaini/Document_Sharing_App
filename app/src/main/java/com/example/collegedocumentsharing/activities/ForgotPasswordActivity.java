@@ -54,6 +54,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     return;
                 }
 
+                //Sends Recovery Email
                 mAuth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -62,7 +63,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(),"Password reset link was sent your email address",Toast.LENGTH_SHORT).show();
                                 }
                                 else{
-                                    Toast.makeText(getApplicationContext(),"Mail sending error",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),"Error Sending Email",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

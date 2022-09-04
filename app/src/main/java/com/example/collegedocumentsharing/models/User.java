@@ -4,7 +4,7 @@ public class User {
     public String username, email;
 
     public User(){
-
+        //Require empty for firebase
     }
     public User(String username, String email){
         this.username = username;

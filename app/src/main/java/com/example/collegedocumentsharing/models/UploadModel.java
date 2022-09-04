@@ -7,14 +7,13 @@ public class UploadModel {
     private boolean isOwner;
     private String uploaded_date;
 
-    public UploadModel(){}
+    public UploadModel(){
+        //Require empty for firebase
+    }
 
     public UploadModel(String fileName, String information, String fileUrl, String uploaded_by,
                        String username, String uploaded_date, boolean isOwner){
-        
-//        if(information.trim().equals("")){
-//            information = "";
-//        }
+
         this.fileName = fileName;
         this.information = information;
         this.fileUrl = fileUrl;

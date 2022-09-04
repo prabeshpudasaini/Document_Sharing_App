@@ -6,7 +6,7 @@ public class MemberModel {
     Boolean isOwner;
 
     public MemberModel(){
-
+        //Require empty for firebase
     }
 
     public MemberModel(String username, Boolean isOwner) {

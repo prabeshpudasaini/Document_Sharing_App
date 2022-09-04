@@ -31,15 +31,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
 
-//                if(newValue.equals("Light")){
-//                    Toast.makeText(getActivity(),"The selected value is "+newValue,Toast.LENGTH_LONG).show();
-//                }
-//                if(newValue.equals("Dark")){
-//                    Toast.makeText(getActivity(),"The selected value is "+newValue,Toast.LENGTH_LONG).show();
-//                }
-//                if(newValue.equals("System Default")){
-//                    Toast.makeText(getActivity(),"The selected value is "+newValue,Toast.LENGTH_LONG).show();
-//                }
+                //Checks User Selected Value and sets Theme
                 if(newValue.equals("Light")){
                     Toast.makeText(getActivity(),"The selected value is "+newValue,Toast.LENGTH_LONG).show();
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -52,7 +44,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     Toast.makeText(getActivity(),"The selected value is "+newValue,Toast.LENGTH_LONG).show();
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 }
-//                Toast.makeText(getActivity(),"The selected value is "+preference,Toast.LENGTH_LONG).show();
                 return true;
             }
         });

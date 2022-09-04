@@ -19,14 +19,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-
 public class MemberFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
     private MemberRecyclerViewAdapter adapter;
-    private ArrayList<MemberModel> membersArrayList;
 
     String groupId;
 
@@ -37,6 +34,8 @@ public class MemberFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Gets bundle from FileHostFragment
         Bundle b = this.getArguments();
         if (b != null) {
             groupId = b.getString("GroupId", "GroupId");
@@ -47,24 +46,23 @@ public class MemberFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_dashboard,null);
+        View v = inflater.inflate(R.layout.fragment_members,null);
 
         //Setup Recycler View
         recyclerView = v.findViewById(R.id.members);
-        membersArrayList = new ArrayList<MemberModel>();
-
         setUpRecyclerView();
 
         return v;
     }
 
     private void setUpRecyclerView() {
+
+        //Gets Members' Username and sort by ascending order
         Query query = memberReference.orderBy("username", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<MemberModel> options = new FirestoreRecyclerOptions.Builder<MemberModel>()
                 .setQuery(query, MemberModel.class)
                 .build();
-
 
         adapter = new MemberRecyclerViewAdapter(options);
         recyclerView.setHasFixedSize(true);

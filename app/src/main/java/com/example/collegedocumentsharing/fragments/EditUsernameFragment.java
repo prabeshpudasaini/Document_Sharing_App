@@ -37,9 +37,6 @@ public class EditUsernameFragment extends Fragment {
         progressBar = v.findViewById(R.id.progressbar);
         save = v.findViewById(R.id.save);
 
-
-
-
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +50,7 @@ public class EditUsernameFragment extends Fragment {
                 }
 
                 //Calling Firebase Database object and provide name of collection
+                //Updates the Username
                 FirebaseDatabase.getInstance("https://collegedocumentsharing-default-rtdb.asia-southeast1.firebasedatabase.app")
                         .getReference("Users")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -79,7 +77,6 @@ public class EditUsernameFragment extends Fragment {
                                 }
                             }
                         });
-
             }
         });
 

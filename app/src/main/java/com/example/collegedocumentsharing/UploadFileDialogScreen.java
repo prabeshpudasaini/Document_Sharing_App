@@ -67,7 +67,6 @@ public class UploadFileDialogScreen extends DialogFragment {
     String filename,username;
     Long filesize;
 
-
     StorageReference fileStorageRef;
     DocumentReference fileDocumentRef;
     StorageTask uploadTask;
@@ -76,8 +75,6 @@ public class UploadFileDialogScreen extends DialogFragment {
     private String userId;
     private FirebaseUser user;
     private DatabaseReference reference;
-
-
 
 
     @Override
@@ -96,7 +93,7 @@ public class UploadFileDialogScreen extends DialogFragment {
         addFile = view.findViewById(R.id.add_file);
         progressBar = view.findViewById(R.id.progressbar);
 
-//        lv = view.findViewById(R.id.list);
+        //Get user info
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference =  FirebaseDatabase.getInstance("https://collegedocumentsharing-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Users");
@@ -118,6 +115,7 @@ public class UploadFileDialogScreen extends DialogFragment {
             }
         });
 
+        //Gets Data from FileFragment
         Bundle b = this.getArguments();
         if (b != null) {
             className = b.getString("Class Name", "Class Name");
@@ -127,14 +125,13 @@ public class UploadFileDialogScreen extends DialogFragment {
 
         fileStorageRef = FirebaseStorage.getInstance().getReference(groupId);
 
-
+        //Opens File Chooser
         addFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
             }
         });
-
         return view;
     }
 
@@ -151,21 +148,21 @@ public class UploadFileDialogScreen extends DialogFragment {
             }
         });
 
+        //Handles Upload
         toolbar.setOnMenuItemClickListener(new MaterialToolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-               if(uploadTask != null && uploadTask.isInProgress()){
-                   Toast.makeText(getActivity(),"Upload in Progress",Toast.LENGTH_LONG).show();
-               }else{
-                   uploadFile();
-               }
+                if(uploadTask != null && uploadTask.isInProgress()){
+                    Toast.makeText(getActivity(),"Upload in Progress",Toast.LENGTH_LONG).show();
+                }else{
+                    uploadFile();
+                }
                 return true;
-//                dismiss();
-//                return true;
             }
         });
     }
 
+    //Sets Dialog Fragment
     @Override
     public void onStart() {
         super.onStart();
@@ -177,17 +174,23 @@ public class UploadFileDialogScreen extends DialogFragment {
         }
     }
 
+    //Opens File Chooser
     private void openFileChooser(){
         Intent intent = new Intent();
+        //Accept any type of file
         intent.setType("*/*");
+        //Select Multiple File
 //        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        //Select Single File
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
 //        Intent.createChooser(intent,"choose");
 
+        //Starts Activity to open file chooser
         startActivityForResult(intent,PICK_FILE_REQUEST);
     }
 
+    //gets result from file chooser
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -195,8 +198,8 @@ public class UploadFileDialogScreen extends DialogFragment {
         if(requestCode == PICK_FILE_REQUEST && resultCode == RESULT_OK && data!=null
                 && data.getData() != null){
 
-                        fileUri = data.getData();
-
+            //Gets selected file URI
+            fileUri = data.getData();
 
 
             //For multiple selection
@@ -214,7 +217,8 @@ public class UploadFileDialogScreen extends DialogFragment {
              */
 
             Cursor returnCursor =
-                    getActivity().getContentResolver().query(fileUri, null, null, null, null);
+                    getActivity().getContentResolver()
+                            .query(fileUri, null, null, null, null);
             /*
              * Get the column indexes of the data in the Cursor,
              * move to the first row in the Cursor, get the data,
@@ -225,29 +229,27 @@ public class UploadFileDialogScreen extends DialogFragment {
 
             returnCursor.moveToFirst();
 
+            // Gets File Size
             filesize = returnCursor.getLong(sizeIndex);
             Log.d("file","file size is "+Long.toString(returnCursor.getLong(sizeIndex)));
 
+            //Check if file size is greater than 50MB
             if(filesize>50000000){
                 Toast.makeText(getActivity(), "File size is greater than 50MB",Toast.LENGTH_LONG).show();
                 dismiss();
                 Log.d("file","file size is greater than 50MB "+filesize);
-
             }else{
                 Log.d("file","file size is less than 50MB "+filesize);
             }
-
-
-
             filename = returnCursor.getString(nameIndex);
 
             addFile.setText(filename);
-            //            addFile.setText(fileUri.toString());
 
         }
 
     }
 
+    //Find File Extension
     private String getFileExtension(Uri uri){
         ContentResolver cr = getActivity().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -255,64 +257,26 @@ public class UploadFileDialogScreen extends DialogFragment {
 
     }
 
-//    private void uploadFile(){
-//        if(fileUri != null){
-//
-//            String name = filename.split(".")[0];
-//            StorageReference fileReference = fileStorageRef.child(name + "_"
-//                    +System.currentTimeMillis() + "." +getFileExtension(fileUri));
-//
-//            uploadTask = fileReference.putFile(fileUri)
-//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                            progressBar.setVisibility(View.GONE);
-//                            Toast.makeText(getActivity(), "Upload Successful",Toast.LENGTH_LONG).show();
-//                            UploadModel upload = new UploadModel(filename, information.getText().toString(),
-//                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().toString(),
-//                                    userId, username, taskSnapshot.getMetadata().getCreationTimeMillis(),
-//                                    true);
-//
-//                            fileDocumentRef = FirebaseFirestore.getInstance().collection("groups")
-//                                    .document(groupId).collection("files").document();
-//                            fileDocumentRef.set(upload);
-//
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Toast.makeText(getActivity(), e.getMessage(),Toast.LENGTH_LONG).show();
-//                        }
-//                    })
-//            .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-//                    double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-//                    progressBar.setVisibility(View.VISIBLE);
-//                    progressBar.setProgress((int) progress);
-//                }
-//            });
-//        }else{
-//            Toast.makeText(getActivity(),"No file selected",Toast.LENGTH_LONG).show();
-//            dismiss();
-//        }
-//
-//
-//    }
 
     private void uploadFile(){
+
+        //Checks if file is selected or not
         if(fileUri != null){
+
 
             StorageReference fileReference = fileStorageRef.child(System.currentTimeMillis() + "_" +filename);
 
+            //Uploads file to database
             uploadTask = fileReference.putFile(fileUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            //Gets File uploaded Date
                             String uploaded_date = DateFormat.getDateInstance(DateFormat.MEDIUM)
                                     .format(taskSnapshot.getMetadata().getCreationTimeMillis());
+
+                            //Get file Download Url
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -323,6 +287,8 @@ public class UploadFileDialogScreen extends DialogFragment {
 
                                     fileDocumentRef = FirebaseFirestore.getInstance().collection("groups")
                                             .document(groupId).collection("files").document();
+
+                                    //Uploads file to database
                                     fileDocumentRef.set(upload);
                                     dismiss();
 
@@ -344,13 +310,9 @@ public class UploadFileDialogScreen extends DialogFragment {
                             progressBar.setVisibility(View.VISIBLE);
                         }
                     });
-
-
         }else{
             Toast.makeText(getActivity(),"No file selected",Toast.LENGTH_LONG).show();
             dismiss();
         }
-
     }
-
 }

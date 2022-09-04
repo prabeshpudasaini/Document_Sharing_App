@@ -3,14 +3,13 @@
 
 
     <item
-        android:id="@+id/bottom_nav_class"
-
+        android:id="@+id/bottom_nav_files"
         android:enabled="true"
         android:title="Files"
         android:icon="@drawable/ic_baseline_folder_24"/>
 
     <item
-        android:id="@+id/bottom_nav_dashboard"
+        android:id="@+id/bottom_nav_members"
         android:enabled="true"
         android:title="Members"
         android:icon="@drawable/ic_baseline_people_24"/>

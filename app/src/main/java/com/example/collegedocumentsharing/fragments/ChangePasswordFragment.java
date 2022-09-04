@@ -50,7 +50,6 @@ public class ChangePasswordFragment extends Fragment {
                 String newPassword = new_password_EditText.getText().toString();
 
                 if (TextUtils.isEmpty(oldPassword)) {
-
                     old_password_EditText.setError("Old Password is required");
                     old_password_EditText.requestFocus();
                     return;
@@ -72,17 +71,20 @@ public class ChangePasswordFragment extends Fragment {
                         .getCredential(email, oldPassword);
 
                 progressBar.setVisibility(View.VISIBLE);
+
                 // Prompt the user to re-provide their sign-in credentials
+                //Checks if old password is right
                 user.reauthenticate(credential)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
+
+                                    //Updates the password
                                     user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-
                                                 Toast.makeText(getActivity(),"Password updated Successfully",
                                                         Toast.LENGTH_LONG).show();
                                             }
@@ -100,7 +102,6 @@ public class ChangePasswordFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
         return v;
     }
 }

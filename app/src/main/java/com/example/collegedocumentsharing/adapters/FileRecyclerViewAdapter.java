@@ -36,18 +36,12 @@ import java.util.ArrayList;
 
 public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadModel, FileRecyclerViewAdapter.MyViewHolder>{
 
-    private DatabaseReference reference;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference fileDownloadUrl;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     private EmptyViewInterface empty;
 
-
-
-//    String username;
-
-    private ArrayList<UploadModel> fileArrayList = new ArrayList<UploadModel>();
 
     public FileRecyclerViewAdapter(@NonNull FirestoreRecyclerOptions<UploadModel> options) {
         super(options);
@@ -56,11 +50,11 @@ public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadMode
     @Override
     protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull UploadModel model) {
 
-//        String uploaded_date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(model.getUploaded_date());
-
+        //Hides Delete menu if current user is not the one who uploaded file
         if(!firebaseAuth.getCurrentUser().getUid().equals(model.getUploaded_by())){
             holder.imageButton.setVisibility(View.GONE);
         }
+        //Sets data to recyclerView
         holder.name.setText(model.getUsername());
         holder.uploaded_date.setText(model.getUploaded_date());
         holder.information.setText(model.getInformation());
@@ -75,7 +69,10 @@ public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadMode
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 fileDownloadUrl = storage.getReferenceFromUrl(model.getFileUrl());
-                                downloadFile(view.getContext(), model.getFileName(), Environment.DIRECTORY_DOWNLOADS,model.getFileUrl());
+
+                                //Send File Name, File Url and destination directory - Downloads
+                                downloadFile(view.getContext(), model.getFileName(),
+                                        Environment.DIRECTORY_DOWNLOADS,model.getFileUrl());
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
@@ -83,13 +80,15 @@ public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadMode
 
                             }
                         }).show();
-                }
+            }
         });
 
+        //Show popup Menu
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //Show popup Menu
                 PopupMenu popupMenu = new PopupMenu(v.getContext(), holder.imageButton);
                 popupMenu.inflate(R.menu.card_view_menu);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -101,16 +100,18 @@ public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadMode
                             new MaterialAlertDialogBuilder(v.getContext())
                                     .setTitle("Delete")
                                     .setMessage("Do You Want To Delete "+model.getFileName())
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            deleteCard(holder.getAdapterPosition(),v);
-                                        }
-                                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                        }
-                                    }).show();
+                                    .setPositiveButton("Yes",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    deleteCard(holder.getAdapterPosition(),v);
+                                                }
+                                            }).setNegativeButton("No",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                }
+                                            }).show();
                         }
                         return true;
                     }
@@ -120,18 +121,22 @@ public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadMode
         });
     }
 
+    //Handles File Delete
     private void deleteCard(int position,View v) {
         getSnapshots().getSnapshot(position).getReference().delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(v.getContext(), "File Deleted Successfully", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(v.getContext(), "You Don't Have Permission to Delete this File", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(v.getContext(),
+                                    "File Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(v.getContext(),
+                                    "You Don't Have Permission to Delete this File",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     @NonNull
@@ -161,16 +166,15 @@ public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadMode
     @Override
     public void onDataChanged() {
         super.onDataChanged();
+        //Checks Empty View
         if(getSnapshots().isEmpty()){
-//            Log.d("Document","is empty");
             empty.onEmptyView(true);
         }else{
-//            Log.d("Document","is not empty");
             empty.onEmptyView(false);
-
         }
     }
 
+    //Handles Download
     private void downloadFile(Context context, String fileName, String destinationDirectory, String url) {
 
         DownloadManager downloadmanager = (DownloadManager) context.
@@ -184,13 +188,12 @@ public class FileRecyclerViewAdapter extends FirestoreRecyclerAdapter<UploadMode
         downloadmanager.enqueue(request);
     }
 
+    //Handles Empty View
     public interface EmptyViewInterface{
         void onEmptyView(Boolean isEmpty);
-
     }
     public void setOnEmptyView(EmptyViewInterface empty){
         this.empty = empty;
     }
-
 
 }

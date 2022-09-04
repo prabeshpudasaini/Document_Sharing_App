@@ -40,6 +40,7 @@ public class ProfileFragment extends Fragment {
         username_EditText = v.findViewById(R.id.username_edit_text);
         password_EditText = v.findViewById(R.id.password_edit_text);
 
+        //Gets users info
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference =  FirebaseDatabase.getInstance("https://collegedocumentsharing-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .getReference("Users");
@@ -83,18 +84,18 @@ public class ProfileFragment extends Fragment {
         return v;
     }
 
+    //Opens fragment
     private void changePassword() {
         ft = getParentFragmentManager().beginTransaction();
         ft.replace(R.id.main_content,new ChangePasswordFragment());
         ft.commit();
     }
 
+    //Opens fragment
     private void editUsername() {
         ft = getParentFragmentManager().beginTransaction();
         ft.replace(R.id.main_content,new EditUsernameFragment());
         ft.commit();
     }
-
-
 
 }

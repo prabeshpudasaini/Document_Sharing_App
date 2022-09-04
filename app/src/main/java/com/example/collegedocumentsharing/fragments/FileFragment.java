@@ -5,7 +5,6 @@ import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,9 +32,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-
-public class ClassFragment extends Fragment{
+public class FileFragment extends Fragment{
 
     TextView textGroupTitle, textJoinCode,emptyView;
 
@@ -47,7 +44,6 @@ public class ClassFragment extends Fragment{
 
     private RecyclerView recyclerView;
     private FileRecyclerViewAdapter adapter;
-    private ArrayList<UploadModel> fileArrayList;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference fileReference;
@@ -56,6 +52,7 @@ public class ClassFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Gets Data from Bundle from FileHostFragment
         Bundle b = this.getArguments();
         if (b != null) {
             className = b.getString("Class Name", "Class Name");
@@ -64,13 +61,12 @@ public class ClassFragment extends Fragment{
         }
         fileReference = db.collection("groups").document(groupId).collection("files");
 
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_class,null);
+        View v = inflater.inflate(R.layout.fragment_file,null);
 
         emptyView = v.findViewById(R.id.empty_textview);
 
@@ -84,10 +80,10 @@ public class ClassFragment extends Fragment{
 
         //Setup Recycler View
         recyclerView = v.findViewById(R.id.file_card);
-        fileArrayList = new ArrayList<UploadModel>();
 
         setUpRecyclerView();
 
+        //Sets data to bundle and sends to Dialog Screen
         fragment = new UploadFileDialogScreen();
         Bundle bundle = new Bundle();
         bundle.putString("Class Name", className);
@@ -96,13 +92,15 @@ public class ClassFragment extends Fragment{
 
         fragment.setArguments(bundle);
 
-////        String className = getActivity().getIntent().getStringExtra("Class Name");
         textGroupTitle.setText(className);
         textJoinCode.setText(joinCode);
 
+        //Copy the code to Clipboard
         copyTextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Sets data to Clipboard
                 ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(getContext().CLIPBOARD_SERVICE);
                 String text = textJoinCode.getText().toString();
                 ClipData clip = ClipData.newPlainText("Join Code", text);
@@ -115,42 +113,37 @@ public class ClassFragment extends Fragment{
         uploadFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-////                UploadFileDialogScreen dialogFragment = new UploadFileDialogScreen();
-////                dialogFragment.show(fragmentManager,"dialog");
-//
-//                fragment.show(fragmentManager,"dialog");
 
+                //Shows Upload File Dialog Screen
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.addToBackStack(null);
                 fragment.show(ft,"dialog");
             }
         });
 
-
         return v;
     }
 
+    //Setup RecyclerView
     private void setUpRecyclerView() {
 
+        //Gets file and orders it by uploaded_date in descending order
         Query query = fileReference.orderBy("uploaded_date", Query.Direction.DESCENDING);
-
 
         FirestoreRecyclerOptions<UploadModel> options = new FirestoreRecyclerOptions.Builder<UploadModel>()
                 .setQuery(query, UploadModel.class)
                 .build();
-
 
         adapter = new FileRecyclerViewAdapter(options);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setAdapter(adapter);
 
+        //Handles Empty RecyclerView
         adapter.setOnEmptyView(new FileRecyclerViewAdapter.EmptyViewInterface() {
             @Override
             public void onEmptyView(Boolean isEmpty) {
                 if(isEmpty){
-                    Log.d("Document","is empty");
                     SpannableStringBuilder builder = new SpannableStringBuilder();
                     builder.append("No data!! Click ")
                             .append(" ", new ImageSpan(getActivity(), R.drawable.ic_baseline_add_circle_24), 0)
@@ -160,9 +153,7 @@ public class ClassFragment extends Fragment{
                     emptyView.setVisibility(View.VISIBLE);
 
                 }else{
-                    Log.d("Document","is not empty");
                     emptyView.setVisibility(View.GONE);
-
                 }
             }
         });

@@ -17,15 +17,15 @@ import java.util.ArrayList;
 
 public class MemberRecyclerViewAdapter extends FirestoreRecyclerAdapter<MemberModel, MemberRecyclerViewAdapter.MyViewHolder> {
 
-    private ArrayList<MemberModel> memberArrayList = new ArrayList<MemberModel>();
-
-
     public MemberRecyclerViewAdapter(FirestoreRecyclerOptions<MemberModel> options) {
         super(options);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull MemberModel model) {
+
+        //Checks if user is Owner
+        //If user is owner sets Owner to Username
         if(model.getOwner()==true){
             holder.tv.setText(model.getUsername()+"(Owner)");
         }else{
@@ -43,11 +43,9 @@ public class MemberRecyclerViewAdapter extends FirestoreRecyclerAdapter<MemberMo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv;
-
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv=itemView.findViewById(R.id.member_name);
-
         }
     }
 }
