@@ -11,11 +11,14 @@
 
 <img style="height: 110px;" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original-wordmark.svg" alt="Built with Firebase" align="right"/>&nbsp;&nbsp;&nbsp;
 <img style="height: 100px;" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original-wordmark.svg" alt="Built with Java" align="right"/>
-<img style="height: 100px" src="https://github.com/user-attachments/assets/9bade77f-468b-4c04-8def-887af92546a1" />
+<img style="height: 100px" src="https://github.com/user-attachments/assets/9bade77f-468b-4c04-8def-887af92546a1" alt="App Logo"/>
 
 
 
 # Document Sharing App
+
+![Document Sharing App Promotion](https://github.com/user-attachments/assets/c75431c6-7d33-49a7-8437-6203a21e2310)
+
 
 
 
@@ -29,6 +32,14 @@ The user can also change or remove the files that they uploaded as desired. User
 
 
 ## Features
+
+<p style="display: flex; align-items: center; gap: 10px">
+  <img src="https://github.com/user-attachments/assets/3ec7c602-9632-495f-b369-f944ea56454f" width="19%" alt="App Promo 1" />
+  <img src="https://github.com/user-attachments/assets/ef37b7c7-6127-41bd-a61e-7b8349440169" width="19%" alt="App Promo 2"/>
+  <img src="https://github.com/user-attachments/assets/5efc5597-bcfe-4d58-81ca-c80b7777569f" width="19%" alt="App Promo 3" />
+  <img src="https://github.com/user-attachments/assets/48a6758c-f191-4279-a7ef-1f99c76cae63" width="19%" alt="App Promo 4"/>
+  <img src="https://github.com/user-attachments/assets/359d2b63-6a1d-47c4-8070-31015719c452" width="19%" alt="App Promo 5"/>
+</p>
 
 - Light/dark mode toggle
 - Email Password Authentication
@@ -69,7 +80,28 @@ The user can also change or remove the files that they uploaded as desired. User
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+
+<p style="display: flex; align-items: center; gap: 10px">
+  <img src="https://github.com/user-attachments/assets/0c3317ff-59ee-4ea0-8489-98a26340bbed" width="33%" alt="Login_Screen" />
+  <img src="https://github.com/user-attachments/assets/4c0779a3-7437-4941-b7e3-f3bafb880f40" width="33%" alt="Signup_Screen"/>
+  <img src="https://github.com/user-attachments/assets/6b3237ab-2db5-4b93-9152-49d094622a2a" width="33%" alt="Home_Screen_Light" />
+  <img src="https://github.com/user-attachments/assets/c0904647-6c0c-4cf6-9ca8-4f3314c60e91" width="33%" alt="Home_Screen_Dark"/>
+  <img src="https://github.com/user-attachments/assets/849fd768-4ffd-4a07-94ab-13bf347abb7c" width="33%" alt="Group_Dialog"/>
+  <img src="https://github.com/user-attachments/assets/15c174ec-dd21-444d-877b-5aefa0cd60b3" width="33%" alt="Create_Group"/>
+  <img src="https://github.com/user-attachments/assets/4cf92284-a1bc-45e8-8560-741d6bf4ac77" width="33%" alt="Join_Group"/>
+  <img src="https://github.com/user-attachments/assets/25a6be0c-8093-4cbc-a2fb-7c81018377da" width="33%" alt="Content_Screen_Blur"/>
+  <img src="https://github.com/user-attachments/assets/ec819190-fbde-422d-9a2c-634eb0ac540d" width="33%" alt="Upload_Screen"/>
+  <img src="https://github.com/user-attachments/assets/1c66bd98-329a-4047-b39e-7eb9e2c61341" width="33%" alt="Delete_Content_Blur"/>
+  <img src="https://github.com/user-attachments/assets/a0268dbd-338b-4709-9b4c-039fe44a8900" width="33%" alt="Member_Screen_Blur"/>
+  <img src="https://github.com/user-attachments/assets/e0f77463-f455-4272-a6ef-5ae71a9bd78a" width="33%" alt="Leave_Group"/>
+  <img src="https://github.com/user-attachments/assets/8f8d4777-1d4d-4bec-aa1a-584ead0c1133" width="33%" alt="Navigation_Bar"/>
+  <img src="https://github.com/user-attachments/assets/7f2a15d5-78d1-4875-9898-bf832687b988" width="33%" alt="Profile_Screen"/>
+  <img src="https://github.com/user-attachments/assets/09fdafd1-de61-4b96-916a-aeacc8471c93" width="33%" alt="Theme_Dialog"/>
+  
+</p>
+
+
 
 
 ## Installation
